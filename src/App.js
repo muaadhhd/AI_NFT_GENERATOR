@@ -28,6 +28,14 @@ function App() {
   const [isWaiting, setIsWaiting] = useState(false)
 
   const loadBlockchainData = async () => {
+
+    //Allows to changed accounts automatically
+    window.ethereum.on('accountsChanged', async () => {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const account = ethers.utils.getAddress(accounts[0])
+      setAccount(account);
+    })
+
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     setProvider(provider)
 
@@ -64,7 +72,7 @@ function App() {
     setMessage("Generating Image...")
 
     // You can replace this with different model API's
-    const URL = `https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2`
+    const URL = `https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4`
 
     // Send the request
     const response = await axios({
@@ -86,7 +94,12 @@ function App() {
 
     const base64data = Buffer.from(data).toString('base64')
     const img = `data:${type};base64,` + base64data // <-- This is so we can render it on the page
+
+    setMessage("This may take a few seconds...")
+
     setImage(img)
+
+
 
     return data
   }
@@ -134,7 +147,7 @@ function App() {
           <input type="submit" value="Create & Mint" />
         </form>
 
-        <div className="image">
+        <div className="card">
           {!isWaiting && image ? (
             <img src={image} alt="AI generated image" />
           ) : isWaiting ? (
