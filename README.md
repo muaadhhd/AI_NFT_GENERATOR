@@ -41,3 +41,6 @@ In a separate terminal execute:
 
 ### 7. Start frontend
 `$ npm run start`
+
+![Screen Shot 2023-03-13 at 10 24 04 PM](https://user-images.githubusercontent.com/123268689/224876672-f24e74c2-9767-4ad8-a3d3-60892183e29e.png)
+
